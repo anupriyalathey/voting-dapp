@@ -9,6 +9,8 @@
 
   },
   "scripts": {
-		"deploy:sepolia": "hardhat deploy --network sepolia"
+		"deploy:sepolia": "hardhat deploy --network sepolia",
+    "verify:sepolia": "hardhat --network sepolia etherscan-verify"
+
 	}
 }
