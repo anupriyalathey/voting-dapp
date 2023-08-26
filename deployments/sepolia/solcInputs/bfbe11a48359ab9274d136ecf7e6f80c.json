@@ -1,0 +1,35 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/YesNoVoting.sol": {
+      "content": "// SPDX-License-Identifier: UNLICENSED\npragma solidity ^0.8.0;\n\ncontract YesNoVoting {\n    struct Proposal {\n        string question;\n        uint256 yesVotes;\n        uint256 noVotes;\n    }\n    \n    Proposal[] public proposals;\n    mapping(uint256 => mapping(address=>bool)) public hasVoted;\n\n    function createProposal(string memory _question) public {\n        proposals.push(Proposal({\n            question: _question,\n            yesVotes: 0,\n            noVotes: 0\n        }));\n    }\n\n    function vote(uint256 _proposalIndex, bool _voteYes) public {\n        require(!hasVoted[_proposalIndex][msg.sender], \"You have already voted!\");\n\n        if(_voteYes) {\n            proposals[_proposalIndex].yesVotes += 1;\n        } else {\n            proposals[_proposalIndex].noVotes += 1;\n        }\n        hasVoted[_proposalIndex][msg.sender] = true;\n    }\n\n    function getProposalResult(uint256 _proposalIndex) public view returns (string memory, uint256, uint256){\n        return (\n            proposals[_proposalIndex].question,\n            proposals[_proposalIndex].yesVotes,\n            proposals[_proposalIndex].noVotes\n        );\n    }\n}"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
